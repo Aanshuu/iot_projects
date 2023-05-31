@@ -1,5 +1,5 @@
-# iot_projects
-These are all sort of projects I worked on raspberrypi.
+# iot_projects <br>
+These are all sort of projects I worked on raspberrypi. <br>
 Each of them are diffrent and some of the files are linked too.
 coap_dht.py and coapclient.py should be run together.
 index.html is the webpage for websocket.py, therefore should be working together.
