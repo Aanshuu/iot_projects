@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebSocket API</title>
+  </head>
+  <body>
+    <h1>WebSocket API</h1>
+    <p>Status: <span id="status">Connecting...</span></p>
+    <form>
+      <input type="text" id="message" placeholder="Enter a message...">
+      <button type="submit" id="send">Send</button>
+    </form>
+    <ul id="messages"></ul>
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+    <script>
+      const socket = io.connect('http://<your-raspberry-pi-ip>:8080');
+
+      socket.on('connect', function() {
+        document.getElementById('status').innerHTML = 'Connected';
+      });
+
+      socket.on('disconnect', function() {
+        document.getElementById('status').innerHTML = 'Disconnected';
+      });
+
+      document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = document.getElementById('message').value;
+        socket.emit('message', message);
+        const li = document.createElement('li');
+        li.appendChild(document.createTextNode('Sent: ' + message));
+        document.getElementById('messages').appendChild(li);
+        document.getElementById('message').value = '';
+      });
+
+      socket.on('message', function(message) {
+        const li = document.createElement('li');
+        li.appendChild(document.createTextNode('Received: ' + message));
+        document.getElementById('messages').appendChild(li);
+      });
+
